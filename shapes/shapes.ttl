@@ -476,6 +476,13 @@ f:DistributionShape a sh:NodeShape ;
         sh:path dct:isPartOf ;
         sh:node f:DatasetShape ;
         sh:minCount 1 ;
+    ], [
+        sh:name "label" ;
+        sh:description "RDFS label for common linked data practise." ;
+        sh:path rdfs:label ;
+        sh:equals dct:title ;
+        sh:severity sh:Info ;
+        sh:message "Common practise to provide a rdfs:label" ;
     ] .
 
 f:CatalogRecordShape a sh:NodeShape ;
