@@ -2,7 +2,10 @@
 @prefix role: <http://www.w3.org/ns/dx/prof/role/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 
-<http://purl.org/fair-metadata/draft/profile> a prof:Profile ;
+<http://purl.org/fair-metadata/draft/profile>
+    a prof:Profile ;
+    prof:isProfileOf <http://www.w3.org/ns/dcat> ;
+
     prof:hasResource [
         dcterms:conformsTo <https://www.w3.org/TR/shacl/> ;
         prof:hasRole role:Validation ;
