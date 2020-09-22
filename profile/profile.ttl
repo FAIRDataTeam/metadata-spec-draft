@@ -1,0 +1,10 @@
+@prefix prof: <http://www.w3.org/ns/dx/prof/> .
+@prefix role: <http://www.w3.org/ns/dx/prof/role/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<http://purl.org/fair-metadata/draft/profile> a prof:Profile ;
+    prof:hasResource [
+        dcterms:conformsTo <https://www.w3.org/TR/shacl/> ;
+        prof:hasRole role:Validation ;
+        prof:hasArtifact <http://purl.org/fair-metadata/draft/shape> ;
+    ] .

@@ -1,0 +1,546 @@
+@prefix f: <http://purl.org/fair-metadata/draft/shape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix r3d: <http://www.re3data.org/schema/3-0#> .
+
+f:ResourceShape a sh:NodeShape ;
+    sh:targetClass dcat:Resource ;
+    sh:property [
+        sh:name "access rights" ;
+        sh:description "Information about who can access the resource or an indication of its security status." ;
+        sh:path dct:accessRights ;
+        sh:or (
+            [ sh:class dct:RightsStatement ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "conforms to" ;
+        sh:description "An established standard to which the described resource conforms." ;
+        sh:path dct:conformsTo ;
+        sh:or (
+            [ sh:class dct:Standard ]
+            [ sh:nodeKind sh:IRI ]
+        );
+    ] , [
+        sh:name "contact point" ;
+        sh:description "Relevant contact information for the cataloged resource." ;
+        sh:path dcat:contactPoint ;
+        sh:or (
+            [ sh:class vcard:Kind ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "resource creator" ;
+        sh:description "The entity responsible for producing the resource." ;
+        sh:path dct:creator ;
+        sh:or (
+            [ sh:class foaf:Agent ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "description" ;
+        sh:description "A free-text account of the item." ;
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:uniqueLang true ;
+    ] , [
+        sh:name "title" ;
+        sh:description "A name given to the item." ;
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:uniqueLang true ;
+    ] , [
+        sh:name "release date" ;
+        sh:description "Date of formal issuance (e.g., publication) of the item." ;
+        sh:path dct:issued ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "update/modification date" ;
+        sh:description "Most recent date on which the item was changed, updated or modified." ;
+        sh:path dct:modified ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "language" ;
+        sh:description "A language of the item. This refers to the natural language used for textual metadata (i.e. titles, descriptions, etc) of a cataloged resource (i.e. dataset or service) or the textual values of a dataset distribution" ;
+        sh:path dct:language ;
+        sh:or (
+            [ sh:class dct:LinguisticSystem ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "publisher" ;
+        sh:description "The entity responsible for making the item available." ;
+        sh:path dct:publisher ;
+        sh:or (
+            [ sh:class foaf:Agent ]
+            [ sh:nodeKind sh:IRI ]
+        );
+    ] , [
+        sh:name "identifier" ;
+        sh:description "A unique identifier of the item." ;
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+    ] , [
+        sh:name "theme/category" ;
+        sh:description "A main category of the resource. A resource can have multiple themes." ;
+        sh:path dcat:theme ;
+        sh:or (
+            [ sh:class skos:Concept ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "type/genre" ;
+        sh:description "The nature or genre of the resource." ;
+        sh:path dct:type ;
+        sh:or (
+            [ sh:class rdfs:Class ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] ,
+    # TODO resource relation
+    # TODO qualified relation
+    [
+        sh:name "keyword/tag" ;
+        sh:description "A keyword or tag describing the resource." ;
+        sh:path dcat:keyword ;
+        sh:nodeKind sh:Literal ;
+    ] , [
+        sh:name "landing page" ;
+        sh:description "A Web page that can be navigated to in a Web browser to gain access to the catalog, a dataset, its distributions and/or additional information." ;
+        sh:path dcat:landingPage ;
+        sh:or (
+            [ sh:class foaf:Document ]
+            [ sh:nodeKind sh:IRI ]
+        );
+    ] , [
+        sh:name "qualified attribution" ;
+        sh:description "Link to an Agent having some form of responsibility for the resource" ;
+        sh:path prov:qualifiedAttribution ;
+        sh:node prov:Attribution ;
+    ] , [
+        sh:name "license" ;
+        sh:description "A legal document under which the resource is made available." ;
+        sh:path dct:license ;
+        sh:or (
+            [ sh:class dct:LicenseDocument ]
+            [ sh:nodeKind sh:IRI ]
+        );
+    ] , [
+        sh:name "rights" ;
+        sh:description "A statement that concerns all rights not addressed with dct:license or dct:accessRights, such as copyright statements." ;
+        sh:path dct:rights ;
+        sh:or (
+            [ sh:class sh:RightsStatement ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "has policy" ;
+        sh:description "An ODRL conformant policy expressing the rights associated with the resource." ;
+        sh:path odrl:hasPolicy ;
+        sh:or (
+            [ sh:class odrl:Policy ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "is referenced by" ;
+        sh:description "A related resource, such as a publication, that references, cites, or otherwise points to the cataloged resource." ;
+        sh:path dct:isReferencedBy ;
+        sh:nodeKind sh:IRI ;
+    ] ,
+    # custom addition
+    [
+        sh:name "label" ;
+        sh:description "RDFS label for common linked data practise." ;
+        sh:path rdfs:label ;
+        sh:equals dct:title ;
+        sh:severity sh:Info ;
+        sh:message "Common practise to provide a rdfs:label" ;
+    ] .
+
+f:DatasetShape a sh:NodeShape ;
+    sh:targetClass dcat:Dataset ;
+    sh:targetObjectsOf dcat:dataset ;
+    sh:and ( f:ResourceShape ) ;
+    sh:property [
+        sh:name "dataset distribution" ;
+        sh:description "An available distribution of the dataset." ;
+        sh:path dcat:distribution ;
+        sh:node f:DistributionShape ;
+    ] , [
+        sh:name "frequency" ;
+        sh:description "The frequency at which dataset is published." ;
+        sh:path dct:accrualPeriodicity ;
+        sh:class dct:Frequency ;
+    ] , [
+        sh:name "spatial/geographical coverage" ;
+        sh:description "The geographical area covered by the dataset." ;
+        sh:path dct:spatial ;
+        sh:or (
+            [ sh:class dct:Location ] 
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "spatial resolution" ;
+        sh:description "Minimum spatial separation resolvable in a dataset, measured in meters." ;
+        sh:path dcat:spatialResolutionInMeters ;
+        sh:datetype xsd:decimal ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "temporal coverage" ;
+        sh:description "The temporal period that the dataset covers." ;
+        sh:path dct:temporal ;
+        sh:class dct:PeriodOfTime ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "temporal resolution" ;
+        sh:description "Minimum time period resolvable in the dataset." ;
+        sh:path dcat:temporalResolution ;
+        sh:datatype xsd:duration ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "was generated by" ;
+        sh:description "An activity that generated, or provides the business context for, the creation of the dataset." ;
+        sh:path prov:wasGeneratedBy ;
+        sh:class prov:Activity ;
+    ] ,
+    # custom addition
+    [
+        sh:name "is part of" ;
+        sh:description "Link to the parent catalog." ;
+        sh:path dct:isPartOf ;
+        sh:node f:CatalogShape ;
+        sh:minCount 1 ;
+    ] .
+
+f:CatalogShape a sh:NodeShape ;
+    sh:targetClass dcat:Catalog ;
+    sh:targetObjectsOf dcat:catalog ;
+    sh:and ( f:DatasetShape ) ;
+    sh:property [
+        sh:name "homepage" ;
+        sh:description "A homepage of the catalog (a public Web document usually available in HTML)." ;
+        sh:path foaf:homepage ;
+        sh:or (
+            [ sh:class foaf:Document ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "themes" ;
+        sh:description "A knowledge organization system (KOS) used to classify catalog's datasets and services." ;
+        sh:path dcat:themeTaxonomy ;
+        sh:or (
+            [ sh:class skos:ConceptScheme ]
+            [ sh:class skos:Collection ]
+            [ sh:class owl:Ontology ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+        sh:maxCount 1 ;
+    ] ,
+    # dct:hasPart
+    [
+        sh:name "dataset" ;
+        sh:description "A collection of data that is listed in the catalog." ;
+        sh:path dcat:dataset ;
+        sh:node f:DatasetShape ;
+    ] , [
+        sh:name "service" ;
+        sh:description "A site or end-point that is listed in the catalog." ;
+        sh:path dcat:service ;
+        sh:node f:DataServiceShape ;
+    ] , [
+        sh:name "catalog" ;
+        sh:description "A catalog whose contents are of interest in the context of this catalog." ;
+        sh:path dcat:catalog ;
+        sh:node f:CatalogShape ;
+    ]  , [
+        sh:name "catalog record" ;
+        sh:description "A record describing the registration of a single dataset or data service that is part of the catalog." ;
+        sh:path dcat:record ;
+        sh:node f:CatalogRecordShape ;
+    ] ,
+    # custom addition
+    [
+        sh:name "is part of" ;
+        sh:description "Link to the parent repository or catalog." ;
+        sh:path dct:isPartOf ;
+        sh:or (
+            [ sh:node f:RepositoryShape ]
+            [ sh:node f:CatalogShape ]
+        ) ;
+        sh:minCount 1 ;
+    ] .
+
+f:DataServiceShape a sh:NodeShape ;
+    sh:targetClass dcat:DataService ;
+    sh:targetObjectsOf dcat:service, dcat:accessService ;
+    sh:targetSubjectsOf dcat:servesDataset ;
+    sh:and ( f:ResourceShape ) ;
+    sh:property [
+        sh:name "endpoint URL" ;
+        sh:description "The root location or primary endpoint of the service (a Web-resolvable IRI)." ;
+        sh:path dcat:endpointURL ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ; # TODO confirm cardinality
+    ] , [
+        sh:name "endpoint description" ;
+        sh:description "A description of the services available via the end-points, including their operations, parameters etc." ;
+        sh:path dcat:endpointDescription ;
+    ] , [
+        sh:name "serves dataset" ;
+        sh:description "A collection of data that this data service can distribute." ;
+        sh:path dcat:servesDataset ;
+        sh:node f:DatasetShape ;
+    ] .
+
+f:DistributionShape a sh:NodeShape ;
+    sh:targetClass dcat:Distribution ;
+    sh:targetObjectsOf dcat:distribution ;
+    sh:targetSubjectsOf dcat:accessService ;
+    sh:property [
+        sh:name "title" ;
+        sh:description "A name given to the distribution." ;
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:uniqueLang true ;
+    ] , [
+        sh:name "description" ;
+        sh:description "A free-text account of the distribution." ;
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:uniqueLang true ;
+    ] , [
+        sh:name "release date" ;
+        sh:description "Date of formal issuance (e.g., publication) of the distribution." ;
+        sh:path dct:issued ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "update/modification date" ;
+        sh:description "Most recent date on which the distribution was changed, updated or modified." ;
+        sh:path dct:modified ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "license" ;
+        sh:description "A legal document under which the distribution is made available." ;
+        sh:path dct:license ;
+        sh:or (
+            [ sh:class dct:LicenseDocument ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "access rights" ;
+        sh:description "A rights statement that concerns how the distribution is accessed." ;
+        sh:path dct:accessRights ;
+        sh:or (
+            [ sh:class dct:RightsStatement ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "rights" ;
+        sh:description "Information about rights held in and over the distribution." ;
+        sh:path dct:rights ;
+        sh:or (
+            [ sh:class dct:RightsStatement ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "has policy" ;
+        sh:description "An ODRL conformant policy expressing the rights associated with the distribution." ;
+        sh:path odrl:hasPolicy ;
+        sh:or (
+            [ sh:class odrl:Policy ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "access URL" ;
+        sh:description "A URL of the resource that gives access to a distribution of the dataset. E.g. landing page, feed, SPARQL endpoint." ;
+        sh:path dcat:accessURL ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "access service" ;
+        sh:description "A data service that gives access to the distribution of the dataset" ;
+        sh:path dcat:accessService ;
+        sh:node f:DataServiceShape ;
+        # TODO: cardinality?
+    ] , [
+        sh:name "download URL" ;
+        sh:description "The URL of the downloadable file in a given format. E.g. CSV file or RDF file. The format is indicated by the distribution's dct:format and/or dcat:mediaType" ;
+        sh:path dcat:downloadURL ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "byte size" ;
+        sh:description "The size of a distribution in bytes." ;
+        sh:path dcat:byteSize ;
+        sh:datatype xsd:decimal ;
+    ] , [
+        sh:name "spatial resolution" ;
+        sh:description "The minimum spatial separation resolvable in a dataset distribution, measured in meters." ;
+        sh:path dcat:spatialResolutionInMeters ;
+        sh:datatype xsd:decimal ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "temporal resolution" ;
+        sh:description "Minimum time period resolvable in the dataset distribution." ;
+        sh:path dcat:temporalResolution ;
+        sh:datatype xsd:duration ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "conforms to" ;
+        sh:description "An established standard to which the distribution conforms." ;
+        sh:path dct:conformsTo ;
+        sh:or (
+            [ sh:class dct:Standard ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "media type" ;
+        sh:description "The media type of the distribution as defined by IANA." ;
+        sh:path dcat:mediaType ;
+        sh:or (
+            [ sh:class dct:MediaType ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "format" ;
+        sh:description "The file format of the distribution." ;
+        sh:path dct:format ;
+        sh:or (
+            [ sh:class dct:MediaTypeOrExtent ]
+            [ sh:nodeKind sh:Literal ] #TODO confirm nodekind
+        ) ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "compression format" ;
+        sh:description "The compression format of the distribution in which the data is contained in a compressed form, e.g. to reduce the size of the downloadable file." ;
+        sh:path dcat:compressFormat ;
+        sh:or (
+            [ sh:class dct:MediaType ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+        # TODO confirm cardinality
+    ] , [
+        sh:name "packaging format" ;
+        sh:description "The package format of the distribution in which one or more data files are grouped together, e.g. to enable a set of related files to be downloaded together." ;
+        sh:path dcat:packageFormat ;
+        sh:or (
+            [ sh:class dct:MediaType ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+        sh:maxCount 1 ; # TODO conform cardinality
+    ] ,
+    # custom addition
+    [
+        sh:name "is part of" ;
+        sh:description "Link to the parent dataset." ;
+        sh:path dct:isPartOf ;
+        sh:node f:DatasetShape ;
+        sh:minCount 1 ;
+    ] .
+
+f:CatalogRecordShape a sh:NodeShape ;
+    sh:targetClass dcat:CatalogRecord ;
+    sh:property [
+        sh:name "title" ;
+        sh:description "A name given to the record." ;
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:uniqueLang true ;
+        sh:minCount 1 ;
+    ] , [
+        sh:name "description" ;
+        sh:description "A free-text account of the record." ;
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:uniqueLang true ;
+    ] , [
+        sh:name "listing date" ;
+        sh:description "The date of listing (i.e. formal recording) of the corresponding dataset or service in the catalog." ;
+        sh:path dct:issued ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "update/modification date" ;
+        sh:description "Most recent date on which the catalog entry was changed, updated or modified." ;
+        sh:path dct:modified ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "primary topic" ;
+        sh:description "The dcat:Resource (dataset or service) described in the record." ;
+        sh:path foaf:primaryTopic ;
+        sh:or (
+            [ sh:node f:ResourceShape ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] , [
+        sh:name "conforms to" ;
+        sh:description "An established standard to which the described resource conforms." ;
+        sh:path dct:conformsTo ;
+        sh:or (
+            [ sh:class dct:Standard ]
+            [ sh:nodeKind sh:IRI ]
+        ) ;
+    ] .
+
+f:RepositoryShape a sh:NodeShape ;
+    sh:targetClass r3d:Repository ;
+    sh:and ( f:ResourceShape ) ;
+    sh:property [
+        sh:name "data catalog" ;
+        sh:description "Points out a dcat:Catalog with Datasets stored inside this Repository, with at least one Distribution." ;
+        sh:path r3d:dataCatalog ;
+        sh:node f:CatalogShape ;
+    ] .
