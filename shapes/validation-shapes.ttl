@@ -29,6 +29,7 @@ f:ResourceShape a sh:NodeShape ;
             [ sh:class dct:Standard ]
             [ sh:nodeKind sh:IRI ]
         );
+        sh:minCount 1 ;
     ] , [
         sh:name "contact point" ;
         sh:description "Relevant contact information for the cataloged resource." ;
@@ -100,6 +101,7 @@ f:ResourceShape a sh:NodeShape ;
             [ sh:class foaf:Agent ]
             [ sh:nodeKind sh:IRI ]
         );
+        sh:minCount 1 ;
     ] , [
         sh:name "identifier" ;
         sh:description "A unique identifier of the item." ;
@@ -150,6 +152,7 @@ f:ResourceShape a sh:NodeShape ;
             [ sh:class dct:LicenseDocument ]
             [ sh:nodeKind sh:IRI ]
         );
+        sh:minCount 1 ;
     ] , [
         sh:name "rights" ;
         sh:description "A statement that concerns all rights not addressed with dct:license or dct:accessRights, such as copyright statements." ;
@@ -369,6 +372,7 @@ f:DistributionShape a sh:NodeShape ;
             [ sh:class dct:LicenseDocument ]
             [ sh:nodeKind sh:IRI ]
         ) ;
+        sh:minCount 1 ;
     ] , [
         sh:name "access rights" ;
         sh:description "A rights statement that concerns how the distribution is accessed." ;
@@ -436,6 +440,7 @@ f:DistributionShape a sh:NodeShape ;
             [ sh:class dct:Standard ]
             [ sh:nodeKind sh:IRI ]
         ) ;
+        sh:minCount 1 ;
     ] , [
         sh:name "media type" ;
         sh:description "The media type of the distribution as defined by IANA." ;
