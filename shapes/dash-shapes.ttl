@@ -1,0 +1,314 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix f: <http://purl.org/fair-metadata/draft/shape/validation#> .
+
+f:ResourceShape a sh:NodeShape ;
+    sh:targetClass dcat:Resource ;
+    sh:property [
+        sh:path dct:accessRights ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO consider dash:DetailsEditor
+    ] , [
+        sh:path dct:conformsTo ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:contactPoint ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:creator ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:description ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextAreaEditor ;
+    ] , [
+        sh:path dct:title ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:issued ;
+        dash:viewer dash:LiteralViewer ;
+    ] , [
+        sh:path dct:modified ;
+        dash:viewer dash:LiteralViewer ;
+    ] , [
+        sh:path dct:language ;
+        dash:viewer dash:LabelViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:publisher ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO dash:DetailsEditor
+    ] , [
+        sh:path dct:identifier ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dcat:theme ;
+        dash:viewer dash:LabelViewer ;
+        dash:editor dash:URIEditor ; # dash:AutocompletEditor
+    ] , [
+        sh:path dct:type ;
+        dash:viewer dash:LabelViewer ;
+        dash:editor dash:URIEditor ;
+    ] ,
+    # TODO resource relation
+    # TODO qualified relation
+    [
+        sh:path dcat:keyword ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dcat:landingPage ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path prov:qualifiedAttribution ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:license ;
+        dash:viewer dash:LabelViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:rights ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path odrl:hasPolicy ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:isReferencedBy ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] ,
+    # custom addition
+    [
+        sh:path rdfs:label ;
+    ] .
+
+f:DatasetShape a sh:NodeShape ;
+    sh:targetClass dcat:Dataset ;
+    sh:targetObjectsOf dcat:dataset ;
+    sh:and ( f:ResourceShape ) ;
+    sh:property [
+        sh:path dcat:distribution ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:accrualPeriodicity ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:spatial ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dcat:spatialResolutionInMeters ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:temporal ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dcat:temporalResolution ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path prov:wasGeneratedBy ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] ,
+    # custom addition
+    [
+        sh:path dct:isPartOf ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] .
+
+f:CatalogShape a sh:NodeShape ;
+    sh:targetClass dcat:Catalog ;
+    sh:targetObjectsOf dcat:catalog ;
+    sh:and ( f:DatasetShape ) ;
+    sh:property [
+        sh:path foaf:homepage ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:themeTaxonomy ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] ,
+    # dct:hasPart
+    [
+        sh:path dcat:dataset ;
+        dash:viewer dash:URIViewer ; # TODO dash:LabelViewer
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:service ;
+        dash:viewer dash:URIViewer ; # TODO dash:LabelViewer
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:catalog ;
+        dash:viewer dash:URIViewer ; # TODO dash:LabelViewer
+        dash:editor dash:URIEditor ;
+    ]  , [
+        sh:path dcat:record ;
+        dash:viewer dash:URIViewer ; # TODO dash:LabelViewer
+        dash:editor dash:URIEditor ;
+    ] ,
+    # custom addition
+    [
+        sh:path dct:isPartOf ;
+    ] .
+
+f:DataServiceShape a sh:NodeShape ;
+    sh:targetClass dcat:DataService ;
+    sh:targetObjectsOf dcat:service, dcat:accessService ;
+    sh:targetSubjectsOf dcat:servesDataset ;
+    sh:and ( f:ResourceShape ) ;
+    sh:property [
+        sh:path dcat:endpointURL ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:endpointDescription ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:servesDataset ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] .
+
+f:DistributionShape a sh:NodeShape ;
+    sh:targetClass dcat:Distribution ;
+    sh:targetObjectsOf dcat:distribution ;
+    sh:targetSubjectsOf dcat:accessService ;
+    sh:property [
+        sh:path dct:title ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:description ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextAreaEditor ;
+    ] , [
+        sh:path dct:issued ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:modified ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:license ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:accessRights ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO consider dash:DetailsEditor
+    ] , [
+        sh:path dct:rights ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path odrl:hasPolicy ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:accessURL ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:accessService ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:downloadURL ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:byteSize ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dcat:spatialResolutionInMeters ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dcat:temporalResolution ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:conformsTo ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dcat:mediaType ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO dash:AutoCompleteEditor
+    ] , [
+        sh:path dct:format ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO dash:AutoCompleteEditor
+    ] , [
+        sh:path dcat:compressFormat ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO dash:AutoCompleteEditor
+    ] , [
+        sh:path dcat:packageFormat ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ; # TODO dash:AutoCompleteEditor
+    ] ,
+    # custom addition
+    [
+        sh:path dct:isPartOf ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ], [
+        sh:path rdfs:label ;
+    ] .
+
+f:CatalogRecordShape a sh:NodeShape ;
+    sh:targetClass dcat:CatalogRecord ;
+    sh:property [
+        sh:path dct:title ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:description ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextAreaEditor ;
+    ] , [
+        sh:path dct:issued ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path dct:modified ;
+        dash:viewer dash:LiteralViewer ;
+        dash:editor dash:TextFieldEditor ;
+    ] , [
+        sh:path foaf:primaryTopic ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] , [
+        sh:path dct:conformsTo ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] .
+
+f:RepositoryShape a sh:NodeShape ;
+    sh:targetClass r3d:Repository ;
+    sh:and ( f:ResourceShape ) ;
+    sh:property [
+        sh:path r3d:dataCatalog ;
+        dash:viewer dash:URIViewer ;
+        dash:editor dash:URIEditor ;
+    ] .

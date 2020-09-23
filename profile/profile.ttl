@@ -9,5 +9,11 @@
     prof:hasResource [
         dcterms:conformsTo <https://www.w3.org/TR/shacl/> ;
         prof:hasRole role:Validation ;
-        prof:hasArtifact <http://purl.org/fair-metadata/draft/shape> ;
+        prof:hasArtifact <http://purl.org/fair-metadata/draft/shape/validation> ;
+    ] ;
+
+    prof:hasResource [
+        dcterms:conformsTo <https://www.w3.org/TR/shacl/> ;
+        prof:hasRole role:Schema ;
+        prof:hasArtifact <http://purl.org/fair-metadata/draft/shape/dash> ;
     ] .

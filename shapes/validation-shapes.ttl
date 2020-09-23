@@ -1,4 +1,4 @@
-@prefix f: <http://purl.org/fair-metadata/draft/shape#> .
+@prefix f: <http://purl.org/fair-metadata/draft/shape/validation#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dct: <http://purl.org/dc/terms/> .
@@ -309,6 +309,7 @@ f:DataServiceShape a sh:NodeShape ;
         sh:name "endpoint description" ;
         sh:description "A description of the services available via the end-points, including their operations, parameters etc." ;
         sh:path dcat:endpointDescription ;
+        sh:nodeKind sh:IRI ;
     ] , [
         sh:name "serves dataset" ;
         sh:description "A collection of data that this data service can distribute." ;
