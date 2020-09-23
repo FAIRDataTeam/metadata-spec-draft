@@ -42,6 +42,7 @@ f:ResourceShape a sh:NodeShape ;
         sh:description "The entity responsible for producing the resource." ;
         sh:path dct:creator ;
         sh:or (
+            [ sh:node f:AgentShape ]
             [ sh:class foaf:Agent ]
             [ sh:nodeKind sh:IRI ]
         ) ;
@@ -95,6 +96,7 @@ f:ResourceShape a sh:NodeShape ;
         sh:description "The entity responsible for making the item available." ;
         sh:path dct:publisher ;
         sh:or (
+            [ sh:node f:AgentShape ]
             [ sh:class foaf:Agent ]
             [ sh:nodeKind sh:IRI ]
         );
@@ -176,6 +178,7 @@ f:ResourceShape a sh:NodeShape ;
         sh:description "RDFS label for common linked data practise." ;
         sh:path rdfs:label ;
         sh:equals dct:title ;
+        sh:minCount 1 ;
         sh:severity sh:Info ;
         sh:message "Common practise to provide a rdfs:label" ;
     ] .
@@ -482,6 +485,7 @@ f:DistributionShape a sh:NodeShape ;
         sh:description "RDFS label for common linked data practise." ;
         sh:path rdfs:label ;
         sh:equals dct:title ;
+        sh:minCount 1 ;
         sh:severity sh:Info ;
         sh:message "Common practise to provide a rdfs:label" ;
     ] .
@@ -551,4 +555,14 @@ f:RepositoryShape a sh:NodeShape ;
         sh:description "Points out a dcat:Catalog with Datasets stored inside this Repository, with at least one Distribution." ;
         sh:path r3d:dataCatalog ;
         sh:node f:CatalogShape ;
+    ] .
+
+# auxiliary shapes, could be external and imported using owl:import
+
+f:AgentShape a sh:NodeShape ;
+    sh:targetClass foaf:Agent ;
+    sh:property [
+        sh:path foaf:name ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
     ] .
