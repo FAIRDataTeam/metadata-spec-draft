@@ -188,7 +188,6 @@ f:ResourceShape a sh:NodeShape ;
 
 f:DatasetShape a sh:NodeShape ;
     sh:targetClass dcat:Dataset ;
-    sh:targetObjectsOf dcat:dataset ;
     sh:and ( f:ResourceShape ) ;
     sh:property [
         sh:name "dataset distribution" ;
@@ -243,7 +242,6 @@ f:DatasetShape a sh:NodeShape ;
 
 f:CatalogShape a sh:NodeShape ;
     sh:targetClass dcat:Catalog ;
-    sh:targetObjectsOf dcat:catalog ;
     sh:and ( f:DatasetShape ) ;
     sh:property [
         sh:name "homepage" ;
@@ -302,8 +300,6 @@ f:CatalogShape a sh:NodeShape ;
 
 f:DataServiceShape a sh:NodeShape ;
     sh:targetClass dcat:DataService ;
-    sh:targetObjectsOf dcat:service, dcat:accessService ;
-    sh:targetSubjectsOf dcat:servesDataset ;
     sh:and ( f:ResourceShape ) ;
     sh:property [
         sh:name "endpoint URL" ;
@@ -325,8 +321,6 @@ f:DataServiceShape a sh:NodeShape ;
 
 f:DistributionShape a sh:NodeShape ;
     sh:targetClass dcat:Distribution ;
-    sh:targetObjectsOf dcat:distribution ;
-    sh:targetSubjectsOf dcat:accessService ;
     sh:property [
         sh:name "title" ;
         sh:description "A name given to the distribution." ;
