@@ -10,6 +10,37 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix r3d: <http://www.re3data.org/schema/3-0#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+
+f:ContainerShape a sh:NodeShape ;
+    sh:targetClass ldp:DirectContainer ;
+    sh:property [
+        sh:name "title" ;
+        sh:description "Name identifying the member resources." ;
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:minCount 1 ;
+        sh:uniqueLang true ;
+    ] , [
+        sh:name "membership resource" ;
+        sh:description "" ; # TODO sensible description
+        sh:path ldp:membershipResource ;
+        sh:node f:ResourceShape ; # specify for each layer?
+        sh:minCount 1 ;
+        sh:maxCount 1 ; # TODO max cardinality?
+    ] , [
+        sh:name "has member relation" ;
+        sh:description "" ; # TODO sensible description
+        sh:path ldp:hasMemberRelation ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ; # TODO max cardinality ?
+    ] , [
+        sh:name "contains" ;
+        sh:description "A set of triples, maintained by the LDP container, that lists documents created by the LDP container but not yet deleted." ;
+        sh:path ldp:contains ;
+        sh:node f:ResourceShape ; # TODO handle cases like dcat:Distribution (not a subclass of dcat:Resource)
+    ] .
 
 f:ResourceShape a sh:NodeShape ;
     sh:targetClass dcat:Resource ;
