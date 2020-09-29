@@ -25,7 +25,7 @@ f:ContainerShape a sh:NodeShape ;
         sh:name "membership resource" ;
         sh:description "" ; # TODO sensible description
         sh:path ldp:membershipResource ;
-        sh:node f:ResourceShape ; # specify for each layer?
+        sh:node f:ResourceShape ;
         sh:minCount 1 ;
         sh:maxCount 1 ; # TODO max cardinality?
     ] , [
@@ -39,7 +39,7 @@ f:ContainerShape a sh:NodeShape ;
         sh:name "contains" ;
         sh:description "A set of triples, maintained by the LDP container, that lists documents created by the LDP container but not yet deleted." ;
         sh:path ldp:contains ;
-        sh:node f:ResourceShape ; # TODO handle cases like dcat:Distribution (not a subclass of dcat:Resource)
+        sh:nodeKind sh:IRI ;
     ] .
 
 f:ResourceShape a sh:NodeShape ;
@@ -215,6 +215,13 @@ f:ResourceShape a sh:NodeShape ;
         sh:minCount 1 ;
         sh:severity sh:Info ;
         sh:message "Common practise to provide a rdfs:label" ;
+    ] , [
+        sh:name "" ; # TODO sensible name
+        sh:description "" ; # TODO descriptive text
+        sh:path [
+            sh:inversePath ldp:membershipResource
+        ] ;
+        sh:minCount 1 ;
     ] .
 
 f:DatasetShape a sh:NodeShape ;
