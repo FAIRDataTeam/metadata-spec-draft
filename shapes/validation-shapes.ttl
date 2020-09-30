@@ -6,11 +6,15 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix r3d: <http://www.re3data.org/schema/3-0#> .
 @prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .
+@prefix time: <http://www.w3.org/2006/time#> .
 
 f:ContainerShape a sh:NodeShape ;
     sh:targetClass ldp:DirectContainer ;
@@ -242,6 +246,7 @@ f:DatasetShape a sh:NodeShape ;
         sh:description "The geographical area covered by the dataset." ;
         sh:path dct:spatial ;
         sh:or (
+            [ sh:node f:LocationShape ]
             [ sh:class dct:Location ] 
             [ sh:nodeKind sh:IRI ]
         ) ;
@@ -255,7 +260,10 @@ f:DatasetShape a sh:NodeShape ;
         sh:name "temporal coverage" ;
         sh:description "The temporal period that the dataset covers." ;
         sh:path dct:temporal ;
-        sh:class dct:PeriodOfTime ;
+        sh:or (
+            [ sh:node f:PeriodOfTimeShape ]
+            [ sh:class dct:PeriodOfTime ]
+        );
         sh:maxCount 1 ;
     ] , [
         sh:name "temporal resolution" ;
@@ -602,4 +610,77 @@ f:AgentShape a sh:NodeShape ;
         sh:path foaf:name ;
         sh:nodeKind sh:Literal ;
         sh:minCount 1 ;
+    ] .
+
+f:LocationShape a sh:NodeShape ;
+    sh:targetClass dct:Location ;
+    sh:or (
+        [
+            sh:name "geometry" ;
+            sh:description "Associates any resource with the corresponding geometry." ;
+            sh:path locn:geometry ;
+            sh:nodeKind sh:Literal ;
+            sh:datatype geosparql:asWKT ;
+            sh:minCount 1 ;
+        ]
+        [
+            sh:name "bounding box" ;
+            sh:description "The geographic bounding box of a resource." ;
+            sh:path dcat:bbox ;
+            sh:nodeKind sh:Literal ;
+            sh:datatype geosparql:asWKT ;
+            sh:minCount 1 ;
+        ]
+        [
+            sh:name "centroid" ;
+            sh:description "The geographic center (centroid) of a resource." ;
+            sh:path dcat:centroid ;
+            sh:nodeKind sh:Literal ;
+            sh:datatype geosparql:asWKT ;
+            sh:minCount 1 ;
+        ]
+    ) .
+
+f:PeriodOfTimeShape a sh:NodeShape ;
+    sh:targetClass dct:PeriodOfTime ;
+    sh:property [
+        sh:name "start date" ;
+        sh:description "The start of the period." ;
+        sh:path dcat:startDate ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "end date" ;
+        sh:description "The end of the period." ;
+        sh:path dcat:endDate ;
+        sh:or (
+            [ sh:datatype xsd:gYear ]
+            [ sh:datatype xsd:gYearMonth ]
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "beginning" ;
+        sh:description "Beginning of a period or interval." ;
+        sh:path time:hasBeginning ;
+        sh:or (
+            [ sh:class time:Instant ]
+            [ sh:nodeKind sh:Literal ]
+        ) ;
+        sh:maxCount 1 ;
+    ] , [
+        sh:name "end" ;
+        sh:description "End of a period or interval." ;
+        sh:path time:hasEnd ;
+        sh:or (
+            [ sh:class time:Instant ]
+            [ sh:nodeKind sh:Literal ]
+        ) ;
+        sh:maxCount 1 ;
     ] .
