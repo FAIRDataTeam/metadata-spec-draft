@@ -193,7 +193,7 @@ f:ResourceShape a sh:NodeShape ;
         sh:description "A statement that concerns all rights not addressed with dct:license or dct:accessRights, such as copyright statements." ;
         sh:path dct:rights ;
         sh:or (
-            [ sh:class sh:RightsStatement ]
+            [ sh:class dct:RightsStatement ]
             [ sh:nodeKind sh:IRI ]
         ) ;
     ] , [
